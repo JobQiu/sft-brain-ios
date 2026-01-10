@@ -28,7 +28,7 @@ export function useOAuthListener() {
           await Browser.close()
 
           // Check if this is an OAuth callback
-          if (data.url.includes('/oauth/google/callback') || data.url.includes('/mobile/auth/callback')) {
+          if (data.url.includes('/oauth/google/callback') || data.url.includes('/auth/callback')) {
             // Extract the full URL or redirect to callback handler
             const url = new URL(data.url)
             const code = url.searchParams.get('code')
@@ -36,7 +36,7 @@ export function useOAuthListener() {
 
             if (code) {
               // Redirect to the callback page with the code
-              router.push(`/mobile/auth/callback?code=${code}&state=${state || ''}`)
+              router.push(`/auth/callback?code=${code}&state=${state || ''}`)
             }
           }
         })

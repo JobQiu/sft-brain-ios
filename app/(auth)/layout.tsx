@@ -17,7 +17,7 @@ export default function MobileAuthLayout({
   const [viewportHeight, setViewportHeight] = useState(0)
 
   // Hide bottom nav on review page for better focus
-  const isReviewPage = pathname === '/mobile/review'
+  const isReviewPage = pathname === '/review'
 
   // Fix iOS 100vh issue
   useEffect(() => {
@@ -33,7 +33,7 @@ export default function MobileAuthLayout({
 
   useEffect(() => {
     if (!loading && !user) {
-      router.push("/mobile/login")
+      router.push("/login")
     }
   }, [user, loading, router])
 

@@ -9,11 +9,11 @@ export default function MobileBottomNav() {
   const router = useRouter()
 
   const navItems = [
-    { icon: Home, label: "QA", path: "/mobile/qa" },
-    { icon: BarChart3, label: "Dashboard", path: "/mobile/dashboard" },
-    { icon: Plus, label: "Add", path: "/mobile/add", isAction: true },
-    { icon: PlayCircle, label: "Review", path: "/mobile/review" },
-    { icon: User, label: "Profile", path: "/mobile/profile" },
+    { icon: Home, label: "QA", path: "/qa" },
+    { icon: BarChart3, label: "Dashboard", path: "/dashboard" },
+    { icon: Plus, label: "Add", path: "/add", isAction: true },
+    { icon: PlayCircle, label: "Review", path: "/review" },
+    { icon: User, label: "Profile", path: "/profile" },
   ]
 
   return (

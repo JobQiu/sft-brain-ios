@@ -258,10 +258,10 @@ export default function MobileReviewPage() {
           Add more QA pairs to keep learning.
         </p>
         <div className="space-y-2 w-full max-w-xs">
-          <Button onClick={() => router.push("/mobile/add")} className="w-full">
+          <Button onClick={() => router.push("/add")} className="w-full">
             Add QA Pair
           </Button>
-          <Button onClick={() => router.push("/mobile")} variant="outline" className="w-full">
+          <Button onClick={() => router.push("/qa")} variant="outline" className="w-full">
             Back to Home
           </Button>
         </div>
@@ -286,7 +286,7 @@ export default function MobileReviewPage() {
         setSpokenAnswer("")
       } else {
         // Review session complete - return to QA tab
-        router.push("/mobile/qa")
+        router.push("/qa")
       }
     } catch (error) {
       console.error("Error recording review:", error)
@@ -437,7 +437,7 @@ Do NOT use "add_flashcard" - that would create a duplicate. Always use "rate_fla
           <span className="text-sm font-medium">
             Question {currentIndex + 1} of {reviewQueue.length}
           </span>
-          <Button variant="ghost" size="sm" onClick={() => router.push("/mobile/qa")}>
+          <Button variant="ghost" size="sm" onClick={() => router.push("/qa")}>
             Exit
           </Button>
         </div>
@@ -588,7 +588,7 @@ Do NOT use "add_flashcard" - that would create a duplicate. Always use "rate_fla
                       setShowAnswer(false)
                       setSpokenAnswer("")
                     } else {
-                      router.push("/mobile/qa")
+                      router.push("/qa")
                     }
                   }}
                   size="lg"

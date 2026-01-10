@@ -89,7 +89,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             })
 
             // The Browser will redirect back to the app via deep link
-            // The callback will be handled by /mobile/oauth/google/callback
+            // The callback will be handled by /auth/callback
           } else {
             // For web, use regular redirect
             if (typeof window !== "undefined") {

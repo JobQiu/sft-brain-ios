@@ -21,7 +21,7 @@ export default function MobileLoginPage() {
 
   useEffect(() => {
     if (user && !loading) {
-      router.push("/mobile/qa")
+      router.push("/qa")
     }
   }, [user, loading, router])
 
@@ -101,7 +101,7 @@ export default function MobileLoginPage() {
           await new Promise(resolve => setTimeout(resolve, 100))
 
           // Redirect to QA tab
-          window.location.href = "/mobile/qa"
+          window.location.href = "/qa"
         }
       }
     } catch (error) {

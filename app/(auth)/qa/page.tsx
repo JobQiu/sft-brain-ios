@@ -134,7 +134,7 @@ function MobileQAContent() {
             {filteredQAs.map((qa) => (
               <button
                 key={qa.id}
-                onClick={() => router.push(`/mobile/qa/${qa.id}`)}
+                onClick={() => router.push(`/qa/${qa.id}`)}
                 className="w-full text-left p-4 hover:bg-accent transition-colors active:bg-accent/80"
               >
                 <div className="flex items-start justify-between gap-3">
