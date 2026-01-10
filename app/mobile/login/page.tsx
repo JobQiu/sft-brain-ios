@@ -21,7 +21,7 @@ export default function MobileLoginPage() {
 
   useEffect(() => {
     if (user && !loading) {
-      router.push("/qa")
+      router.push("/mobile/qa")
     }
   }, [user, loading, router])
 
@@ -55,7 +55,7 @@ export default function MobileLoginPage() {
       await new Promise(resolve => setTimeout(resolve, 100))
 
       // Redirect to dashboard
-      window.location.href = "/dashboard"
+      window.location.href = "/mobile/dashboard"
     } catch (error) {
       console.error("Login failed:", error)
       setLoginError(error instanceof Error ? error.message : "Login failed. Please try again.")
@@ -101,7 +101,7 @@ export default function MobileLoginPage() {
           await new Promise(resolve => setTimeout(resolve, 100))
 
           // Redirect to QA tab
-          window.location.href = "/qa"
+          window.location.href = "/mobile/qa"
         }
       }
     } catch (error) {
@@ -113,14 +113,17 @@ export default function MobileLoginPage() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-background">
+      <div className="flex items-center justify-center bg-background min-h-screen">
         <div className="text-muted-foreground">Loading...</div>
       </div>
     )
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-background">
+    <div className="flex flex-col bg-background min-h-screen overflow-y-auto" style={{
+      WebkitOverflowScrolling: 'touch',
+      minHeight: '100dvh',
+    }}>
       {/* Hero Section */}
       <div className="flex-1 px-4 pt-12 pb-8">
         <div className="mx-auto max-w-md space-y-8">

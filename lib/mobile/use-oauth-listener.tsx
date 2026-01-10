@@ -36,7 +36,7 @@ export function useOAuthListener() {
 
             if (code) {
               // Redirect to the callback page with the code
-              router.push(`/auth/callback?code=${code}&state=${state || ''}`)
+              router.push(`/mobile/auth/callback?code=${code}&state=${state || ''}`)
             }
           }
         })

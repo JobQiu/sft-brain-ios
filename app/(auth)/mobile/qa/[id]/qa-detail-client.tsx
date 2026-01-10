@@ -66,7 +66,7 @@ export function QADetailClient() {
     return (
       <div className="flex flex-col items-center justify-center h-[calc(100vh-8rem)] p-4">
         <p className="text-muted-foreground mb-4">QA not found or incomplete data</p>
-        <Button onClick={() => router.push("/qa")}>Back to QA List</Button>
+        <Button onClick={() => router.push("/mobile/qa")}>Back to QA List</Button>
       </div>
     )
   }
@@ -75,7 +75,7 @@ export function QADetailClient() {
     setDeleting(true)
     try {
       await deleteQAPair(qa.id)
-      router.push("/qa")
+      router.push("/mobile/qa")
     } catch (error) {
       console.error("Error deleting QA:", error)
       alert("Failed to delete QA pair. Please try again.")
@@ -84,7 +84,7 @@ export function QADetailClient() {
   }
 
   const handleEdit = () => {
-    router.push(`/qa/${params.id}/edit`)
+    router.push(`/mobile/qa/${params.id}/edit`)
   }
 
   const formatDate = (date: Date | string) => {

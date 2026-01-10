@@ -1,5 +1,5 @@
 import { mockQAPairs, mockUsers, mockAuth, getDashboardStats } from "./data"
-import type { QAPair, User, DashboardStats } from "@/lib/types"
+import type { QAPair, User, DashboardStats } from "@/lib/mobile/types"
 
 // Simulated API delay to mimic network request
 const delay = (ms: number = 300) => new Promise(resolve => setTimeout(resolve, ms))
@@ -60,6 +60,7 @@ export const mockAPI = {
   async getQAPairs(userId: string, params?: { limit?: number; offset?: number; due_only?: boolean }) {
     await delay()
 
+    // Filter by userId
     let filtered = mockQAPairs.filter(qa => qa.userId === userId)
 
     if (params?.due_only) {
@@ -156,8 +157,9 @@ export const mockAPI = {
     const reviewId = "review-" + Date.now().toString()
     qa.reviewHistory.push({
       id: reviewId,
-      result,
-      timestamp: new Date(),
+      correct: result === "correct" || result === "partial",
+      reviewedAt: new Date(),
+      nextReviewAt: qa.nextReviewAt,
     })
 
     return {

@@ -7,8 +7,11 @@ const nextConfig = {
     unoptimized: true,
     minimumCacheTTL: 60 * 60 * 24 * 30, // 30 days
   },
-  // Always use 'export' for Capacitor mobile builds
-  output: 'export',
+  // Use standalone build for Capacitor (only for production builds)
+  // In development, we need API routes to work with mock data
+  ...(process.env.CAPACITOR_BUILD === 'true' && { output: 'export' }),
+  // Disable static generation for all routes
+  trailingSlash: true,
   // Disable Vercel Analytics
   experimental: {
     webVitalsAttribution: [],
