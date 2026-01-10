@@ -34,18 +34,57 @@ export interface QAPair {
   sourceText?: string | null
   tags: string[]
   createdAt: Date
+  updatedAt?: Date
   nextReviewAt: Date
   reviewCount: number
   reviewHistory: ReviewRecord[]
   memoryLevel?: number
   intervalDays?: number
+  userId?: string
+  imageUrl?: string | null
 }
 
 export interface ReviewRecord {
   id: string
   reviewedAt: Date
-  userAnswer: string
+  userAnswer?: string
   correct: boolean
+  nextReviewAt?: Date
+}
+
+export interface User {
+  id: string
+  name: string
+  email: string
+  avatar?: string
+  picture?: string
+  level?: number
+  totalQAPairs?: number
+  totalReviews?: number
+  dayStreak?: number
+  createdAt?: Date
+}
+
+export interface DashboardStats {
+  totalQAPairs: number
+  reviewsDueToday: number
+  totalReviewsCompleted: number
+  averageAccuracy?: number
+  dayStreak: number
+  activityData?: ActivityData[]
+}
+
+export interface ActivityData {
+  date: string
+  count: number
+}
+
+export interface Review {
+  id: string
+  qaPairId: string
+  userAnswer?: string
+  correct: boolean
+  reviewedAt: Date
 }
 
 // Type conversion utilities

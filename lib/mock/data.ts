@@ -604,6 +604,173 @@ export const mockQAPairs: QAPair[] = [
     userId: "user-1",
     reviewHistory: [],
   },
+
+  // Demo User QA Pairs (user-2)
+  {
+    id: "qa-demo-1",
+    question: "What is the difference between margin and padding in CSS?",
+    answer: "**Margin:**\n- Space OUTSIDE the element's border\n- Creates space between elements\n- Transparent (shows parent's background)\n- Can have negative values\n- Margins can collapse\n\n**Padding:**\n- Space INSIDE the element's border\n- Creates space between content and border\n- Shows element's background color\n- Cannot have negative values\n- Padding never collapses\n\n**Example:**\n```css\n.box {\n  margin: 20px;   /* Space outside */\n  padding: 10px;  /* Space inside */\n  border: 2px solid black;\n}\n```",
+    tags: ["css", "layout", "basics"],
+    createdAt: new Date("2025-01-05"),
+    nextReviewAt: new Date(Date.now() - 3600000), // Due 1 hour ago
+    reviewCount: 2,
+    userId: "user-2",
+    reviewHistory: [],
+  },
+  {
+    id: "qa-demo-2",
+    question: "Explain the box model in CSS",
+    answer: "The CSS box model describes how elements are sized and spaced:\n\n**Components (from inside out):**\n1. **Content:** The actual content (text, images)\n2. **Padding:** Space around content\n3. **Border:** Line around padding\n4. **Margin:** Space outside border\n\n**Box Sizing:**\n```css\n/* Default: width = content only */\nbox-sizing: content-box;\n\n/* Better: width = content + padding + border */\nbox-sizing: border-box;\n```\n\nMost modern CSS uses `border-box` for predictable sizing.",
+    tags: ["css", "box-model", "layout"],
+    createdAt: new Date("2025-01-06"),
+    nextReviewAt: new Date(Date.now() + 86400000), // Due tomorrow
+    reviewCount: 1,
+    userId: "user-2",
+    reviewHistory: [],
+  },
+  {
+    id: "qa-demo-3",
+    question: "What is Flexbox and when should you use it?",
+    answer: "Flexbox is a one-dimensional layout system for arranging items in rows or columns.\n\n**Key Properties:**\n```css\n.container {\n  display: flex;\n  flex-direction: row | column;\n  justify-content: center | space-between | flex-start;\n  align-items: center | stretch | flex-start;\n  gap: 10px;\n}\n\n.item {\n  flex: 1; /* Grow to fill space */\n  flex-shrink: 0; /* Don't shrink */\n}\n```\n\n**Use When:**\n- Centering items\n- Distributing space evenly\n- Creating navigation bars\n- Aligning items in a row/column\n\n**Don't use for:** Two-dimensional layouts (use Grid instead)",
+    tags: ["css", "flexbox", "layout"],
+    createdAt: new Date("2025-01-07"),
+    nextReviewAt: new Date(Date.now() - 7200000), // Due 2 hours ago
+    reviewCount: 3,
+    userId: "user-2",
+    reviewHistory: [],
+  },
+  {
+    id: "qa-demo-4",
+    question: "What is async/await in JavaScript?",
+    answer: "`async/await` is syntactic sugar for working with Promises, making async code look synchronous.\n\n**Basic Syntax:**\n```javascript\n// Without async/await\nfetchData()\n  .then(data => processData(data))\n  .then(result => console.log(result))\n  .catch(error => console.error(error));\n\n// With async/await\nasync function getData() {\n  try {\n    const data = await fetchData();\n    const result = await processData(data);\n    console.log(result);\n  } catch (error) {\n    console.error(error);\n  }\n}\n```\n\n**Rules:**\n- `await` only works inside `async` functions\n- `async` functions always return a Promise\n- Use `try/catch` for error handling",
+    tags: ["javascript", "async", "await"],
+    createdAt: new Date("2025-01-08"),
+    nextReviewAt: new Date(Date.now() + 172800000), // Due in 2 days
+    reviewCount: 4,
+    userId: "user-2",
+    reviewHistory: [],
+  },
+  {
+    id: "qa-demo-5",
+    question: "What is the DOM?",
+    answer: "The DOM (Document Object Model) is a programming interface for HTML and XML documents.\n\n**What it does:**\n- Represents the page as a tree of objects\n- Each HTML element is a node\n- JavaScript can manipulate these nodes\n\n**Example:**\n```javascript\n// Access elements\nconst element = document.getElementById('myDiv');\nconst elements = document.querySelectorAll('.myClass');\n\n// Modify elements\nelement.textContent = 'New text';\nelement.style.color = 'blue';\nelement.classList.add('active');\n\n// Create elements\nconst newDiv = document.createElement('div');\ndocument.body.appendChild(newDiv);\n```\n\n**DOM Tree:**\n```\nDocument\n  └─ html\n      ├─ head\n      └─ body\n          ├─ div\n          └─ p\n```",
+    tags: ["javascript", "dom", "web"],
+    createdAt: new Date("2025-01-08"),
+    nextReviewAt: new Date(Date.now() - 1800000), // Due 30 min ago
+    reviewCount: 2,
+    userId: "user-2",
+    reviewHistory: [],
+  },
+  {
+    id: "qa-demo-6",
+    question: "What is Git and why is it important?",
+    answer: "Git is a distributed version control system for tracking changes in source code.\n\n**Key Features:**\n- **Version Control:** Track every change\n- **Branching:** Work on features in isolation\n- **Collaboration:** Multiple people work together\n- **Backup:** Code stored remotely (GitHub, GitLab)\n- **History:** See who changed what and when\n\n**Basic Commands:**\n```bash\ngit init              # Initialize repository\ngit add .             # Stage changes\ngit commit -m \"msg\"   # Save changes\ngit push              # Upload to remote\ngit pull              # Download updates\ngit branch feature    # Create branch\ngit checkout feature  # Switch branch\ngit merge feature     # Merge branch\n```\n\n**Why Important:**\n- Essential for professional development\n- Required for team collaboration\n- Industry standard",
+    tags: ["git", "version-control", "tools"],
+    createdAt: new Date("2025-01-09"),
+    nextReviewAt: new Date(Date.now() + 86400000), // Due tomorrow
+    reviewCount: 1,
+    userId: "user-2",
+    reviewHistory: [],
+  },
+  {
+    id: "qa-demo-7",
+    question: "What is the difference between GET and POST HTTP methods?",
+    answer: "**GET:**\n- Retrieve data from server\n- Parameters in URL (visible)\n- Can be bookmarked\n- Cached by browsers\n- Limited data size (~2048 chars)\n- Idempotent (repeated calls have same effect)\n- Example: `GET /users?id=123`\n\n**POST:**\n- Send data to server\n- Parameters in request body (hidden)\n- Cannot be bookmarked\n- Not cached\n- No size limit\n- Not idempotent (creates new resources)\n- Example: `POST /users` with body `{name: \"John\"}`\n\n**Use Cases:**\n- GET: Fetching data, search queries\n- POST: Creating resources, submitting forms, uploading files",
+    tags: ["http", "web", "api"],
+    createdAt: new Date("2025-01-09"),
+    nextReviewAt: new Date(Date.now() - 5400000), // Due 1.5 hours ago
+    reviewCount: 3,
+    userId: "user-2",
+    reviewHistory: [],
+  },
+  {
+    id: "qa-demo-8",
+    question: "What is responsive web design?",
+    answer: "Responsive web design makes websites adapt to different screen sizes and devices.\n\n**Key Techniques:**\n\n**1. Media Queries:**\n```css\n/* Mobile first */\n.container { width: 100%; }\n\n/* Tablet */\n@media (min-width: 768px) {\n  .container { width: 750px; }\n}\n\n/* Desktop */\n@media (min-width: 1024px) {\n  .container { width: 1000px; }\n}\n```\n\n**2. Flexible Grids:**\n```css\n.grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));\n}\n```\n\n**3. Flexible Images:**\n```css\nimg {\n  max-width: 100%;\n  height: auto;\n}\n```\n\n**4. Viewport Meta Tag:**\n```html\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n```",
+    tags: ["css", "responsive", "mobile"],
+    createdAt: new Date("2025-01-10"),
+    nextReviewAt: new Date(Date.now() + 259200000), // Due in 3 days
+    reviewCount: 1,
+    userId: "user-2",
+    reviewHistory: [],
+  },
+  {
+    id: "qa-demo-9",
+    question: "What is JSON?",
+    answer: "JSON (JavaScript Object Notation) is a lightweight data interchange format.\n\n**Characteristics:**\n- Human-readable text format\n- Language-independent\n- Easy to parse and generate\n- Based on JavaScript object syntax\n\n**Syntax:**\n```json\n{\n  \"name\": \"John Doe\",\n  \"age\": 30,\n  \"isStudent\": false,\n  \"courses\": [\"Math\", \"Science\"],\n  \"address\": {\n    \"city\": \"New York\",\n    \"zip\": \"10001\"\n  }\n}\n```\n\n**Data Types:**\n- String: `\"text\"`\n- Number: `123`, `45.67`\n- Boolean: `true`, `false`\n- Array: `[1, 2, 3]`\n- Object: `{\"key\": \"value\"}`\n- null: `null`\n\n**JavaScript Usage:**\n```javascript\nconst obj = JSON.parse('{\"name\":\"John\"}'); // String → Object\nconst str = JSON.stringify({name: \"John\"}); // Object → String\n```",
+    tags: ["json", "data-formats", "web"],
+    createdAt: new Date("2025-01-10"),
+    nextReviewAt: new Date(Date.now() - 10800000), // Due 3 hours ago
+    reviewCount: 2,
+    userId: "user-2",
+    reviewHistory: [],
+  },
+  {
+    id: "qa-demo-10",
+    question: "What is an API?",
+    answer: "API (Application Programming Interface) is a set of rules for how software components communicate.\n\n**Types:**\n\n**1. REST API:**\n- Uses HTTP methods (GET, POST, PUT, DELETE)\n- Stateless\n- Resource-based URLs\n```javascript\nGET    /api/users      // Get all users\nPOST   /api/users      // Create user\nGET    /api/users/123  // Get user by ID\nPUT    /api/users/123  // Update user\nDELETE /api/users/123  // Delete user\n```\n\n**2. GraphQL API:**\n- Single endpoint\n- Client specifies exactly what data needed\n\n**3. WebSocket API:**\n- Two-way real-time communication\n\n**Why Important:**\n- Enables integration between systems\n- Mobile apps communicate with servers\n- Third-party service integration (payment, maps, etc.)\n\n**Example:**\n```javascript\nfetch('https://api.example.com/users')\n  .then(res => res.json())\n  .then(data => console.log(data));\n```",
+    tags: ["api", "web", "backend"],
+    createdAt: new Date("2025-01-10"),
+    nextReviewAt: new Date(Date.now() + 43200000), // Due in 12 hours
+    reviewCount: 3,
+    userId: "user-2",
+    reviewHistory: [],
+  },
+  {
+    id: "qa-demo-11",
+    question: "What is localStorage vs sessionStorage?",
+    answer: "Both are web storage APIs for storing data in the browser.\n\n**localStorage:**\n```javascript\n// Persists even after browser closes\nlocalStorage.setItem('theme', 'dark');\nconst theme = localStorage.getItem('theme');\nlocalStorage.removeItem('theme');\nlocalStorage.clear();\n```\n- Data persists until manually cleared\n- Available across all tabs\n- Size: ~5-10MB\n\n**sessionStorage:**\n```javascript\n// Clears when tab closes\nsessionStorage.setItem('tempData', 'value');\nconst data = sessionStorage.getItem('tempData');\n```\n- Data cleared when tab/window closes\n- Separate for each tab\n- Size: ~5-10MB\n\n**Use Cases:**\n- localStorage: User preferences, theme, cached data\n- sessionStorage: Form data, temporary state, wizard steps\n\n**Security:**\n- Both vulnerable to XSS attacks\n- Don't store sensitive data (passwords, tokens)\n- Use httpOnly cookies for sensitive data",
+    tags: ["javascript", "storage", "web"],
+    createdAt: new Date("2025-01-10"),
+    nextReviewAt: new Date(Date.now() - 14400000), // Due 4 hours ago
+    reviewCount: 4,
+    userId: "user-2",
+    reviewHistory: [],
+  },
+  {
+    id: "qa-demo-12",
+    question: "What is the difference between undefined and null?",
+    answer: "Both represent absence of value, but with different meanings.\n\n**undefined:**\n- Variable declared but not assigned\n- Function parameter not provided\n- Object property doesn't exist\n- Function has no return statement\n- Type: `undefined`\n\n```javascript\nlet x;              // undefined\nfunction test() {}  \ntest();            // returns undefined\n\nconst obj = { a: 1 };\nobj.b;             // undefined\n\nfunction greet(name) {\n  console.log(name); // undefined if not passed\n}\ngreet();\n```\n\n**null:**\n- Intentional absence of value\n- Must be explicitly assigned\n- Represents \"no object\"\n- Type: `object` (JavaScript quirk)\n\n```javascript\nlet user = null;   // Explicitly no user\n```\n\n**Comparison:**\n```javascript\nundefined == null   // true (loose equality)\nundefined === null  // false (strict equality)\ntypeof undefined    // \"undefined\"\ntypeof null         // \"object\" (bug in JS)\n```",
+    tags: ["javascript", "types", "basics"],
+    createdAt: new Date("2025-01-10"),
+    nextReviewAt: new Date(Date.now() + 518400000), // Due in 6 days
+    reviewCount: 1,
+    userId: "user-2",
+    reviewHistory: [],
+  },
+  {
+    id: "qa-demo-13",
+    question: "What is the purpose of the package.json file?",
+    answer: "package.json is the manifest file for Node.js projects.\n\n**Key Sections:**\n```json\n{\n  \"name\": \"my-app\",\n  \"version\": \"1.0.0\",\n  \"description\": \"My application\",\n  \"main\": \"index.js\",\n  \"scripts\": {\n    \"start\": \"node index.js\",\n    \"dev\": \"nodemon index.js\",\n    \"test\": \"jest\"\n  },\n  \"dependencies\": {\n    \"express\": \"^4.18.0\"\n  },\n  \"devDependencies\": {\n    \"nodemon\": \"^2.0.0\"\n  }\n}\n```\n\n**Purposes:**\n1. **Project Metadata:** Name, version, description\n2. **Dependencies:** List required packages\n3. **Scripts:** Define commands (`npm run dev`)\n4. **Entry Point:** Specify main file\n5. **Configuration:** Set project settings\n\n**Dependency Versions:**\n- `\"^1.2.3\"` - Compatible (1.x.x)\n- `\"~1.2.3\"` - Approximate (1.2.x)\n- `\"1.2.3\"` - Exact version\n\n**Commands:**\n```bash\nnpm install          # Install all dependencies\nnpm install express  # Add new dependency\nnpm run dev          # Run script\n```",
+    tags: ["nodejs", "npm", "tools"],
+    createdAt: new Date("2025-01-10"),
+    nextReviewAt: new Date(Date.now() - 21600000), // Due 6 hours ago
+    reviewCount: 2,
+    userId: "user-2",
+    reviewHistory: [],
+  },
+  {
+    id: "qa-demo-14",
+    question: "What is the difference between div and span?",
+    answer: "Both are generic HTML containers, but differ in display behavior.\n\n**`<div>` (Division):**\n- **Block-level** element\n- Takes full width available\n- Starts on new line\n- Can contain block and inline elements\n- Use for: Sections, layouts, containers\n\n```html\n<div>This div takes full width</div>\n<div>This starts on a new line</div>\n```\n\n**`<span>` (Span):**\n- **Inline** element\n- Takes only necessary width\n- Stays on same line\n- Should only contain inline elements\n- Use for: Styling parts of text\n\n```html\n<p>This is <span style=\"color: red\">red text</span> inline.</p>\n```\n\n**Visual Difference:**\n```html\n<!-- Block: Each on new line -->\n<div>One</div><div>Two</div>\n\n<!-- Inline: Same line -->\n<span>One</span><span>Two</span>\n```\n\n**CSS Override:**\n```css\ndiv { display: inline; }  /* Make div inline */\nspan { display: block; }  /* Make span block */\n```",
+    tags: ["html", "basics", "elements"],
+    createdAt: new Date("2025-01-10"),
+    nextReviewAt: new Date(Date.now() + 345600000), // Due in 4 days
+    reviewCount: 3,
+    userId: "user-2",
+    reviewHistory: [],
+  },
+  {
+    id: "qa-demo-15",
+    question: "What is CRUD?",
+    answer: "CRUD represents the four basic operations for persistent storage.\n\n**C - Create:**\n- Add new data\n- SQL: `INSERT INTO users (name) VALUES ('John')`\n- HTTP: `POST /api/users`\n- MongoDB: `db.users.insertOne({name: 'John'})`\n\n**R - Read:**\n- Retrieve/query data\n- SQL: `SELECT * FROM users WHERE id = 1`\n- HTTP: `GET /api/users/1`\n- MongoDB: `db.users.findOne({_id: 1})`\n\n**U - Update:**\n- Modify existing data\n- SQL: `UPDATE users SET name = 'Jane' WHERE id = 1`\n- HTTP: `PUT /api/users/1` or `PATCH /api/users/1`\n- MongoDB: `db.users.updateOne({_id: 1}, {$set: {name: 'Jane'}})`\n\n**D - Delete:**\n- Remove data\n- SQL: `DELETE FROM users WHERE id = 1`\n- HTTP: `DELETE /api/users/1`\n- MongoDB: `db.users.deleteOne({_id: 1})`\n\n**Example REST API:**\n```javascript\napp.get('/users', getAllUsers);        // Read all\napp.get('/users/:id', getUser);        // Read one\napp.post('/users', createUser);        // Create\napp.put('/users/:id', updateUser);     // Update\napp.delete('/users/:id', deleteUser);  // Delete\n```",
+    tags: ["database", "api", "crud"],
+    createdAt: new Date("2025-01-10"),
+    nextReviewAt: new Date(Date.now() - 28800000), // Due 8 hours ago
+    reviewCount: 5,
+    userId: "user-2",
+    reviewHistory: [],
+  },
 ]
 
 // Mock dashboard stats

@@ -62,7 +62,7 @@ function MobileQAContent() {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="sticky top-0 bg-background border-b border-border z-10">
+      <div className="sticky bg-background border-b border-border z-10" style={{ top: 0 }}>
         <div className="p-4 space-y-3">
           <div className="flex items-center gap-2">
             <div className="relative flex-1">
@@ -134,7 +134,7 @@ function MobileQAContent() {
             {filteredQAs.map((qa) => (
               <button
                 key={qa.id}
-                onClick={() => router.push(`/qa/${qa.id}`)}
+                onClick={() => router.push(`/mobile/qa/${qa.id}`)}
                 className="w-full text-left p-4 hover:bg-accent transition-colors active:bg-accent/80"
               >
                 <div className="flex items-start justify-between gap-3">
@@ -146,7 +146,7 @@ function MobileQAContent() {
                       <div className="flex flex-wrap gap-1 mb-2">
                         {qa.tags.slice(0, 3).map((tag, index) => (
                           <Badge key={`${qa.id}-tag-${index}`} variant="secondary" className="text-xs">
-                            {typeof tag === 'string' ? tag : tag.name || String(tag)}
+                            {String(tag)}
                           </Badge>
                         ))}
                         {qa.tags.length > 3 && (

@@ -8,6 +8,9 @@ const config: CapacitorConfig = {
     androidScheme: 'https',
     iosScheme: 'https',
   },
+  ios: {
+    contentInset: 'automatic', // Handle iOS safe area (notch, Dynamic Island, status bar)
+  },
   plugins: {
     SplashScreen: {
       launchShowDuration: 2000,

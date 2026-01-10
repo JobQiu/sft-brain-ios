@@ -78,7 +78,7 @@ export function QAEditClient() {
 
       if (result) {
         // Navigate back to detail page
-        router.push(`/qa/${params.id}`)
+        router.push(`/mobile/qa/${params.id}`)
       } else {
         setError("Failed to save changes. Please try again.")
       }
@@ -103,7 +103,7 @@ export function QAEditClient() {
     return (
       <div className="flex flex-col items-center justify-center h-[calc(100vh-8rem)] p-4">
         <p className="text-muted-foreground mb-4">{error}</p>
-        <Button onClick={() => router.push("/qa")}>Back to QA List</Button>
+        <Button onClick={() => router.push("/mobile/qa")}>Back to QA List</Button>
       </div>
     )
   }

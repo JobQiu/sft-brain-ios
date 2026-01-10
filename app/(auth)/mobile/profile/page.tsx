@@ -43,7 +43,7 @@ export default function MobileProfilePage() {
     await logout()
     // Small delay to ensure state is cleared
     setTimeout(() => {
-      router.push("/login")
+      router.push("/mobile/login")
     }, 100)
   }
 

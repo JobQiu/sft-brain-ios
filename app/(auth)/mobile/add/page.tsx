@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { X, Plus, Image as ImageIcon, Mic, MicOff, Sparkles, Link as LinkIcon, Loader2 } from "lucide-react"
+import { X, Plus, Image as ImageIcon, Mic, MicOff, Sparkles, Loader2 } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
@@ -22,7 +22,6 @@ export default function MobileAddQAPage() {
   const [recordingTarget, setRecordingTarget] = useState<'question' | 'answer' | null>(null)
   const [isTranscribing, setIsTranscribing] = useState(false)
   const [isGenerating, setIsGenerating] = useState(false)
-  const [showImportSection, setShowImportSection] = useState(false)
   
   const fileInputRef = useRef<HTMLInputElement>(null)
   const mediaRecorderRef = useRef<MediaRecorder | null>(null)
@@ -59,7 +58,7 @@ export default function MobileAddQAPage() {
           answer: answer.trim(),
           tags,
         })
-        router.push("/mobile")
+        router.push("/mobile/qa")
       } catch (error) {
         console.error("Error saving QA pair:", error)
         alert("Failed to save QA pair. Please try again.")
@@ -69,11 +68,8 @@ export default function MobileAddQAPage() {
     }
   }
 
-  // Handle image upload
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-
+  // Handle file upload (shared logic)
+  const uploadImageFile = async (file: File) => {
     if (!file.type.startsWith('image/')) {
       alert('Please select an image file')
       return
@@ -98,12 +94,12 @@ export default function MobileAddQAPage() {
       if (data.success && data.data) {
         const imageUrl = data.data.url
         const imageMarkdown = `![${file.name}](${imageUrl})`
-        
+
         // Insert into question field if focused, otherwise answer
-        const targetTextarea = document.activeElement === questionTextareaRef.current 
-          ? questionTextareaRef.current 
+        const targetTextarea = document.activeElement === questionTextareaRef.current
+          ? questionTextareaRef.current
           : answerTextareaRef.current || questionTextareaRef.current
-        
+
         if (targetTextarea) {
           const start = targetTextarea.selectionStart
           const end = targetTextarea.selectionEnd
@@ -134,6 +130,14 @@ export default function MobileAddQAPage() {
     }
   }
 
+  // Handle image upload from input
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      await uploadImageFile(file)
+    }
+  }
+
   // Handle paste image
   const handlePaste = async (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
     const items = e.clipboardData?.items
@@ -146,10 +150,7 @@ export default function MobileAddQAPage() {
         e.preventDefault()
         const file = item.getAsFile()
         if (file) {
-          const fakeEvent = {
-            target: { files: [file] }
-          } as React.ChangeEvent<HTMLInputElement>
-          await handleImageUpload(fakeEvent)
+          await uploadImageFile(file)
         }
         break
       }
@@ -296,34 +297,6 @@ export default function MobileAddQAPage() {
       </div>
 
       <div className="flex-1 overflow-y-auto p-4 space-y-4 pb-20">
-        {/* ChatGPT @flashcards Instructions */}
-        <Card className="p-4">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm font-medium flex items-center gap-2">
-              <LinkIcon className="h-4 w-4" />
-              How to use ChatGPT @flashcards
-            </h3>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setShowImportSection(!showImportSection)}
-            >
-              {showImportSection ? 'Hide' : 'Show'}
-            </Button>
-          </div>
-          {showImportSection && (
-            <div className="bg-muted/50 p-3 rounded-lg space-y-2">
-              <p className="text-xs font-medium">Steps to create flashcards in ChatGPT:</p>
-              <ol className="text-xs text-muted-foreground space-y-1 list-decimal list-inside">
-                <li>Open ChatGPT app and start a conversation</li>
-                <li>Type <code className="bg-background px-1 py-0.5 rounded text-xs">@flashcards</code> to use the flashcards feature</li>
-                <li>Use the <code className="bg-background px-1 py-0.5 rounded text-xs">add_flashcard</code> method to create flashcards</li>
-                <li>The flashcards will be automatically synced to your account</li>
-              </ol>
-            </div>
-          )}
-        </Card>
-
         <Card className="p-4 space-y-4">
           <div className="space-y-2">
             <div className="flex items-center justify-between">
