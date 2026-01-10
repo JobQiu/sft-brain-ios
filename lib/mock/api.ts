@@ -1,0 +1,219 @@
+import { mockQAPairs, mockUsers, mockAuth, getDashboardStats } from "./data"
+import type { QAPair, User, DashboardStats } from "@/lib/types"
+
+// Simulated API delay to mimic network request
+const delay = (ms: number = 300) => new Promise(resolve => setTimeout(resolve, ms))
+
+// Mock JWT token generation
+function generateMockToken(user: User): string {
+  const tokenData = {
+    userId: user.id,
+    email: user.email,
+    exp: Date.now() + 24 * 60 * 60 * 1000 // 24 hours
+  }
+  const token = btoa(JSON.stringify(tokenData))
+  return token
+}
+
+export const mockAPI = {
+  // Authentication
+  async login(email: string, password: string) {
+    await delay(500)
+
+    const user = mockAuth.login(email, password || "password123")
+    if (!user) {
+      throw new Error("Invalid credentials")
+    }
+
+    const token = generateMockToken(user)
+    return {
+      token,
+      user,
+      expiresIn: 86400, // 24 hours in seconds
+    }
+  },
+
+  async logout() {
+    await delay(200)
+    mockAuth.logout()
+    return { success: true }
+  },
+
+  async getCurrentUser(token: string) {
+    await delay(200)
+
+    try {
+      const decoded = JSON.parse(atob(token))
+      const user = mockUsers.find(u => u.id === decoded.userId)
+      if (user && decoded.exp > Date.now()) {
+        mockAuth.currentUser = user
+        return user
+      }
+    } catch (e) {
+      // Invalid token
+    }
+
+    throw new Error("Invalid or expired token")
+  },
+
+  // QA Pairs
+  async getQAPairs(userId: string, params?: { limit?: number; offset?: number; due_only?: boolean }) {
+    await delay()
+
+    let filtered = mockQAPairs.filter(qa => qa.userId === userId)
+
+    if (params?.due_only) {
+      filtered = filtered.filter(qa => new Date(qa.nextReviewAt) <= new Date())
+    }
+
+    // Sort by nextReviewAt (due first)
+    filtered.sort((a, b) => new Date(a.nextReviewAt).getTime() - new Date(b.nextReviewAt).getTime())
+
+    const offset = params?.offset || 0
+    const limit = params?.limit || filtered.length
+
+    return filtered.slice(offset, offset + limit)
+  },
+
+  async getQAPair(id: string) {
+    await delay(200)
+
+    const qaPair = mockQAPairs.find(qa => qa.id === id)
+    if (!qaPair) {
+      throw new Error("QA pair not found")
+    }
+
+    return qaPair
+  },
+
+  async createQAPair(qaPair: Omit<QAPair, "id" | "createdAt">) {
+    await delay(400)
+
+    const newId = "qa-" + Date.now().toString()
+    const newQAPair: QAPair = {
+      ...qaPair,
+      id: newId,
+      createdAt: new Date(),
+      reviewCount: qaPair.reviewCount || 0,
+      reviewHistory: qaPair.reviewHistory || [],
+    }
+
+    mockQAPairs.push(newQAPair)
+    return newQAPair
+  },
+
+  async updateQAPair(id: string, updates: Partial<QAPair>) {
+    await delay(300)
+
+    const index = mockQAPairs.findIndex(qa => qa.id === id)
+    if (index === -1) {
+      throw new Error("QA pair not found")
+    }
+
+    mockQAPairs[index] = {
+      ...mockQAPairs[index],
+      ...updates,
+      updatedAt: new Date(),
+    }
+
+    return mockQAPairs[index]
+  },
+
+  async deleteQAPair(id: string) {
+    await delay(300)
+
+    const index = mockQAPairs.findIndex(qa => qa.id === id)
+    if (index === -1) {
+      throw new Error("QA pair not found")
+    }
+
+    mockQAPairs.splice(index, 1)
+    return { success: true }
+  },
+
+  // Reviews
+  async submitReview(qaId: string, result: "correct" | "incorrect" | "partial") {
+    await delay(300)
+
+    const qa = mockQAPairs.find(q => q.id === qaId)
+    if (!qa) {
+      throw new Error("QA pair not found")
+    }
+
+    // Spaced repetition algorithm (simplified SM-2)
+    const multipliers = {
+      correct: 2.5,
+      partial: 1.5,
+      incorrect: 1,
+    }
+
+    const baseInterval = 86400000 // 1 day in ms
+    const reviewInterval = baseInterval * Math.pow(multipliers[result], qa.reviewCount)
+
+    qa.nextReviewAt = new Date(Date.now() + reviewInterval)
+    qa.reviewCount += 1
+    qa.reviewHistory = qa.reviewHistory || []
+    const reviewId = "review-" + Date.now().toString()
+    qa.reviewHistory.push({
+      id: reviewId,
+      result,
+      timestamp: new Date(),
+    })
+
+    return {
+      qaPair: qa,
+      nextReview: qa.nextReviewAt,
+    }
+  },
+
+  // Stats
+  async getDashboardStats(userId: string): Promise<DashboardStats> {
+    await delay(400)
+    return getDashboardStats(userId)
+  },
+
+  // Tags
+  async getTags(userId: string) {
+    await delay(200)
+
+    const userQAPairs = mockQAPairs.filter(qa => qa.userId === userId)
+    const allTags = userQAPairs.flatMap(qa => qa.tags || [])
+    const uniqueTags = Array.from(new Set(allTags))
+
+    return uniqueTags.map(tag => ({
+      id: tag,
+      name: tag,
+      count: allTags.filter(t => t === tag).length,
+    }))
+  },
+
+  // Mock AI generation (returns predefined answer)
+  async generateAnswer(question: string) {
+    await delay(1000) // Simulate AI processing time
+
+    return {
+      answer: "This is a mock AI-generated answer. In the real app, this would be generated by an AI model based on the question.\n\nTo integrate with your backend, you would call the actual API endpoint.\n\nFor now, you can manually write the answer or use this placeholder.",
+    }
+  },
+
+  // Mock audio transcription
+  async transcribeAudio(audioBlob: Blob) {
+    await delay(800)
+
+    return {
+      text: "Mock transcription: This is a placeholder for audio transcription. In the real app, this would transcribe your voice input.",
+    }
+  },
+
+  // Mock image upload
+  async uploadImage(imageFile: File) {
+    await delay(600)
+
+    // Return a mock URL - in real app, this would upload to S3 or similar
+    return {
+      url: URL.createObjectURL(imageFile),
+    }
+  },
+}
+
+export default mockAPI
