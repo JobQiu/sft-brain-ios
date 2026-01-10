@@ -2,10 +2,14 @@
 
 import type { QAPair, ReviewRecord, DashboardStats } from "./types"
 import { getAuthToken as getApiAuthToken } from "@/lib/api-client"
+import { mockAPI } from "@/lib/mock/api"
 
 // Use relative URL when in browser (works with Nginx proxy in monolithic container)
 // In monolithic container, Nginx routes /api/* to Flask backend on port 3000
 const API_BASE_URL = typeof window !== "undefined" ? "" : (process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000")
+
+// For mobile standalone app, use mock API
+const USE_MOCK_API = true
 
 // Helper function to get auth token from storage (synchronous version for compatibility)
 function getAuthToken(): string | null {
@@ -44,6 +48,19 @@ function getAuthToken(): string | null {
   return null
 }
 
+// Helper function to get user ID from token
+function getUserIdFromToken(): string | null {
+  const token = getAuthToken()
+  if (!token) return null
+
+  try {
+    const decoded = JSON.parse(atob(token))
+    return decoded.userId || null
+  } catch {
+    return null
+  }
+}
+
 // Helper function for authenticated requests
 async function authenticatedFetch(url: string, options: RequestInit = {}) {
   // Try async API client token first (more reliable)
@@ -75,9 +92,28 @@ async function authenticatedFetch(url: string, options: RequestInit = {}) {
 }
 
 // Get all QA pairs for the current user
-export async function getQAPairs(): Promise<QAPair[]> {
+export async function getQAPairs(options?: { dueOnly?: boolean }): Promise<QAPair[]> {
+  // Use mock API for standalone mobile app
+  if (USE_MOCK_API) {
+    const userId = getUserIdFromToken()
+    if (!userId) {
+      console.log('[getQAPairs] No user ID found in token')
+      return []
+    }
+
+    console.log('[getQAPairs] Using mock API for user:', userId)
+    return await mockAPI.getQAPairs(userId, { due_only: options?.dueOnly })
+  }
+
   try {
-    const response = await authenticatedFetch(`${API_BASE_URL}/api/qa-pairs`)
+    const queryParams = new URLSearchParams()
+    if (options?.dueOnly) {
+      queryParams.append('due_only', 'true')
+    }
+    const url = queryParams.toString()
+      ? `${API_BASE_URL}/api/qa-pairs?${queryParams.toString()}`
+      : `${API_BASE_URL}/api/qa-pairs`
+    const response = await authenticatedFetch(url)
 
     if (response.ok) {
       const data = await response.json()
@@ -93,8 +129,9 @@ export async function getQAPairs(): Promise<QAPair[]> {
           : [],
         createdAt: new Date(pair.created_at),
         updatedAt: pair.updated_at ? new Date(pair.updated_at) : undefined,
-        nextReviewAt: pair.next_review_at ? new Date(pair.next_review_at) : new Date(),
+        nextReviewAt: pair.next_review_at ? new Date(pair.next_review_at) : (pair.next_review ? new Date(pair.next_review) : new Date()),
         reviewCount: pair.review_count || 0,
+        reviewIndex: pair.review_index ?? 0,
         reviewHistory: pair.review_history || [],
         source: pair.source,
         sourceUrl: pair.source_url,
@@ -342,6 +379,18 @@ export async function recordReview(id: string, correct: boolean, userAnswer?: st
 
 // Get dashboard statistics
 export async function getDashboardStats(): Promise<DashboardStats> {
+  // Use mock API for standalone mobile app
+  if (USE_MOCK_API) {
+    const userId = getUserIdFromToken()
+    if (!userId) {
+      console.log('[getDashboardStats] No user ID found in token')
+      return getLocalDashboardStats()
+    }
+
+    console.log('[getDashboardStats] Using mock API for user:', userId)
+    return await mockAPI.getDashboardStats(userId)
+  }
+
   try {
     const response = await authenticatedFetch(`${API_BASE_URL}/api/stats/overview`)
 

@@ -1,8 +1,8 @@
 import { QAEditClient } from "./qa-edit-client"
 
-// Required for static export - returns empty array since routes are client-side only
+// For static export - generate a placeholder
 export async function generateStaticParams() {
-  return []
+  return [{ id: 'placeholder' }]
 }
 
 export default function MobileQAEditPage() {

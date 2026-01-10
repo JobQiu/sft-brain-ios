@@ -1,194 +1,193 @@
 # SFT Brain iOS
 
-Standalone mobile web application for SFT Brain, ready for iOS conversion with Capacitor. This app runs completely standalone with mock data and can be easily connected to your backend API later.
+SFT Brain 独立移动端网页应用，支持使用 Capacitor 转换为 iOS 原生应用。该应用使用模拟数据完全独立运行，后续可轻松连接到后端 API。
 
-## Features
+## 功能特性
 
-- 📱 **Mobile-First Design**: Optimized for mobile devices with native iOS feel
-- 🔐 **Dual Authentication**: Email/password login + Google OAuth support
-- 📦 **Mock Data**: 50+ realistic QA pairs for testing
-- 🎯 **Spaced Repetition**: Smart review scheduling algorithm
-- 📊 **Progress Tracking**: Visual analytics and activity heatmaps
-- 🏷️ **Tags & Search**: Organize and find QA pairs easily
-- 📝 **Rich Content**: Markdown, code syntax highlighting
-- 📱 **iOS Ready**: Configured for Capacitor iOS build
+- 📱 **移动优先设计**：专为移动设备优化，具有原生 iOS 体验
+- 🔐 **双重认证**：支持邮箱/密码登录 + Google OAuth
+- 📦 **模拟数据**：内置 50+ 条真实的问答对用于测试
+- 🎯 **间隔重复**：智能复习计划算法
+- 📊 **进度追踪**：可视化分析和活动热力图
+- 🏷️ **标签和搜索**：轻松组织和查找问答对
+- 📝 **富文本内容**：支持 Markdown 和代码语法高亮
+- 📱 **iOS 就绪**：已配置 Capacitor iOS 构建
 
-## Quick Start
+## 快速开始
 
-### Prerequisites
+### 环境要求
 
-- Node.js 18+ and npm
+- Node.js 18+ 和 npm
 - Git
 
-### Installation
+### 安装步骤
 
 ```bash
-# Clone or navigate to the repository
+# 克隆或进入项目目录
 cd sft-brain-ios
 
-# Install dependencies
+# 安装依赖
 npm install
 
-# Run development server
+# 启动开发服务器
 npm run dev
 ```
 
-The app will be available at http://localhost:3001
+应用将在 http://localhost:3001 上运行
 
-### Demo Accounts
+### 演示账号
 
-Use these accounts to log in (password: `password123` for all):
+使用以下账号登录（所有账号密码均为 `password123`）：
 - user@example.com
 - demo@example.com
 - member1@example.com
 
-## Project Structure
+## 项目结构
 
 ```
 sft-brain-ios/
-├── app/                    # Next.js app directory
-│   ├── (auth)/            # Protected routes (dashboard, QA, etc.)
-│   ├── login/             # Login page with email/password + OAuth
-│   ├── layout.tsx         # Root layout
-│   └── globals.css        # Global styles
-├── components/            # React components
-│   ├── mobile/            # Mobile-specific components
-│   └── ui/                # shadcn/ui components
-├── lib/                   # Utilities and logic
-│   ├── mock/              # Mock data and API
-│   │   ├── data.ts        # 50+ mock QA pairs
-│   │   └── api.ts         # Mock API service
-│   ├── api-client.ts      # API client (supports mock mode)
-│   ├── types.ts           # TypeScript types
-│   └── mobile/            # Mobile-specific utilities
-├── public/                # Static assets
-├── capacitor.config.ts    # Capacitor configuration
-├── .env.local             # Environment variables
-└── package.json           # Dependencies
-
+├── app/                    # Next.js 应用目录
+│   ├── (auth)/            # 受保护的路由（仪表盘、问答等）
+│   ├── login/             # 登录页面（邮箱/密码 + OAuth）
+│   ├── layout.tsx         # 根布局
+│   └── globals.css        # 全局样式
+├── components/            # React 组件
+│   ├── mobile/            # 移动端专用组件
+│   └── ui/                # shadcn/ui 组件
+├── lib/                   # 工具函数和业务逻辑
+│   ├── mock/              # 模拟数据和 API
+│   │   ├── data.ts        # 50+ 条模拟问答对
+│   │   └── api.ts         # 模拟 API 服务
+│   ├── api-client.ts      # API 客户端（支持模拟模式）
+│   ├── types.ts           # TypeScript 类型定义
+│   └── mobile/            # 移动端专用工具
+├── public/                # 静态资源
+├── capacitor.config.ts    # Capacitor 配置
+├── .env.local             # 环境变量
+└── package.json           # 依赖配置
 ```
 
-## Available Scripts
+## 可用脚本命令
 
 ```bash
-# Development
-npm run dev              # Start dev server on port 3001
+# 开发
+npm run dev              # 在端口 3001 启动开发服务器
 
-# Build
-npm run build            # Production build
-npm run build:mobile     # Build for Capacitor (static export)
+# 构建
+npm run build            # 生产环境构建
+npm run build:mobile     # 为 Capacitor 构建（静态导出）
 
 # Capacitor
-npm run sync:ios         # Build and sync to iOS
-npm run sync:android     # Build and sync to Android
-npm run open:ios         # Open Xcode
-npm run open:android     # Open Android Studio
+npm run sync:ios         # 构建并同步到 iOS
+npm run sync:android     # 构建并同步到 Android
+npm run open:ios         # 打开 Xcode
+npm run open:android     # 打开 Android Studio
 ```
 
-## Running Standalone (Mock Mode)
+## 独立运行（模拟模式）
 
-The app is configured to run standalone by default using mock data:
+应用默认使用模拟数据独立运行：
 
-1. **Mock Data**: 50+ realistic QA pairs covering programming, algorithms, system design, etc.
-2. **Mock Authentication**: Email/password login with demo accounts
-3. **Local Storage**: All changes saved to browser localStorage
-4. **No Backend Required**: Fully functional without any server
+1. **模拟数据**：50+ 条真实的问答对，涵盖编程、算法、系统设计等
+2. **模拟认证**：使用演示账号进行邮箱/密码登录
+3. **本地存储**：所有更改保存到浏览器 localStorage
+4. **无需后端**：无需任何服务器即可完整运行
 
-### Mock API Features
+### 模拟 API 功能
 
-All backend features are simulated:
-- ✅ User authentication and sessions
-- ✅ QA pair CRUD operations
-- ✅ Spaced repetition algorithm
-- ✅ Tags and search
-- ✅ Dashboard statistics
-- ✅ Review history tracking
+所有后端功能均已模拟：
+- ✅ 用户认证和会话管理
+- ✅ 问答对的增删改查操作
+- ✅ 间隔重复算法
+- ✅ 标签和搜索功能
+- ✅ 仪表盘统计数据
+- ✅ 复习历史记录
 
-## Environment Configuration
+## 环境配置
 
-Edit `.env.local` to configure the app:
+编辑 `.env.local` 文件来配置应用：
 
 ```bash
-# Use mock data (true = standalone mode, false = connect to backend)
+# 使用模拟数据（true = 独立模式，false = 连接后端）
 NEXT_PUBLIC_USE_MOCK_DATA=true
 
-# Backend API URL (only used when mock mode is false)
+# 后端 API 地址（仅在模拟模式为 false 时使用）
 NEXT_PUBLIC_API_BASE_URL=http://localhost:3000
 ```
 
-## Converting to iOS App
+## 转换为 iOS 应用
 
-See [CAPACITOR_GUIDE.md](./CAPACITOR_GUIDE.md) for detailed instructions on:
-- Setting up iOS development environment
-- Building the iOS app
-- Testing on simulator and device
-- Preparing for App Store submission
+查看 [CAPACITOR_GUIDE.md](./CAPACITOR_GUIDE.md) 获取详细说明：
+- 设置 iOS 开发环境
+- 构建 iOS 应用
+- 在模拟器和真机上测试
+- 准备提交到 App Store
 
-## Connecting to Backend
+## 连接后端 API
 
-See [BACKEND_INTEGRATION.md](./BACKEND_INTEGRATION.md) for instructions on:
-- Switching from mock to real API
-- Configuring environment variables
-- API endpoints documentation
-- Authentication flow
+查看 [BACKEND_INTEGRATION.md](./BACKEND_INTEGRATION.md) 获取说明：
+- 从模拟模式切换到真实 API
+- 配置环境变量
+- API 端点文档
+- 认证流程
 
-## Tech Stack
+## 技术栈
 
-- **Framework**: Next.js 16 (App Router)
-- **Language**: TypeScript
-- **UI**: Tailwind CSS + shadcn/ui
-- **Mobile**: Capacitor 8
-- **State**: React Query (TanStack Query)
-- **Forms**: React Hook Form + Zod validation
+- **框架**：Next.js 16（App Router）
+- **语言**：TypeScript
+- **UI**：Tailwind CSS + shadcn/ui
+- **移动端**：Capacitor 8
+- **状态管理**：React Query（TanStack Query）
+- **表单**：React Hook Form + Zod 验证
 
-## Development Notes
+## 开发说明
 
-### Hot Reload
-Changes to files will automatically reload in the browser during development.
+### 热重载
+开发期间，文件更改会自动在浏览器中重新加载。
 
-### Mock Data Persistence
-- Mock data is loaded fresh on each page refresh
-- User-created QA pairs are saved to localStorage
-- Login state persists across sessions
+### 模拟数据持久化
+- 每次页面刷新时重新加载模拟数据
+- 用户创建的问答对保存到 localStorage
+- 登录状态在会话间保持
 
-### Mobile Testing
-Test the app on mobile devices by accessing your computer's IP:
+### 移动端测试
+在移动设备上访问您的电脑 IP 地址来测试应用：
 ```bash
-# Find your IP address
+# 查找您的 IP 地址
 ifconfig  # macOS/Linux
 ipconfig  # Windows
 
-# Then access: http://YOUR_IP:3001
+# 然后访问：http://您的IP:3001
 ```
 
-## Troubleshooting
+## 常见问题
 
-### Port Already in Use
-If port 3001 is occupied, edit `package.json` to use a different port:
+### 端口被占用
+如果端口 3001 被占用，编辑 `package.json` 使用其他端口：
 ```json
 "dev": "next dev -p 3002"
 ```
 
-### Dependencies Installation Failed
+### 依赖安装失败
 ```bash
-# Clear npm cache and retry
+# 清除 npm 缓存并重试
 rm -rf node_modules package-lock.json
 npm cache clean --force
 npm install
 ```
 
-### Build Errors
+### 构建错误
 ```bash
-# Ensure TypeScript types are correct
+# 确保 TypeScript 类型正确
 npm run build
 
-# Check for errors in the console
+# 检查控制台中的错误信息
 ```
 
-## Contributing
+## 贡献
 
-This is a standalone version of SFT Brain mobile web. For the full project, see the parent repository.
+这是 SFT Brain 移动端网页的独立版本。完整项目请参考父仓库。
 
-## License
+## 许可证
 
-Part of the SFT Brain project.
+SFT Brain 项目的一部分。

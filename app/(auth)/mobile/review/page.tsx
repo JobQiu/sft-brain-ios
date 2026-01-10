@@ -10,6 +10,7 @@ import { MarkdownRenderer } from "@/components/markdown-renderer"
 import { ReviewBadges } from "@/components/review-badges"
 import { useRouter } from "next/navigation"
 import type { QAPair } from "@/lib/mobile/types"
+import { getReviewStatusLabel, SPACED_REPETITION_INTERVALS, isMastered } from "@/lib/mobile/types"
 
 // Helper function to format review date from UTC to local timezone
 // Shows only date if reviews are on the same day, otherwise shows date and time
@@ -100,16 +101,11 @@ export default function MobileReviewPage() {
           console.error('Failed to load settings:', error)
         }
 
-        const pairs = await getQAPairs()
-        const now = new Date()
-        const dueQAs = pairs.filter((qa) => {
-          if (!qa.nextReviewAt) return true
-          return new Date(qa.nextReviewAt) <= now
-        })
-
-        // If no QAs are due, show recently created QAs for practice
-        const queueToReview = dueQAs.length > 0 ? dueQAs : pairs.slice(0, 10)
-        setReviewQueue(queueToReview)
+        // Fetch only QA pairs that are due for review (and not reviewed today)
+        const dueQAs = await getQAPairs({ dueOnly: true })
+        
+        // Set the review queue (empty if no cards due)
+        setReviewQueue(dueQAs)
       } catch (error) {
         console.error("Error loading review queue:", error)
       } finally {
@@ -258,10 +254,10 @@ export default function MobileReviewPage() {
           Add more QA pairs to keep learning.
         </p>
         <div className="space-y-2 w-full max-w-xs">
-          <Button onClick={() => router.push("/add")} className="w-full">
+          <Button onClick={() => router.push("/mobile/add")} className="w-full">
             Add QA Pair
           </Button>
-          <Button onClick={() => router.push("/qa")} variant="outline" className="w-full">
+          <Button onClick={() => router.push("/mobile/qa")} variant="outline" className="w-full">
             Back to Home
           </Button>
         </div>
@@ -286,7 +282,7 @@ export default function MobileReviewPage() {
         setSpokenAnswer("")
       } else {
         // Review session complete - return to QA tab
-        router.push("/qa")
+        router.push("/mobile/qa")
       }
     } catch (error) {
       console.error("Error recording review:", error)
@@ -434,10 +430,18 @@ Do NOT use "add_flashcard" - that would create a duplicate. Always use "rate_fla
           <div className="h-full bg-primary transition-all duration-300" style={{ width: `${progress}%` }} />
         </div>
         <div className="px-4 py-3 flex items-center justify-between">
-          <span className="text-sm font-medium">
-            Question {currentIndex + 1} of {reviewQueue.length}
-          </span>
-          <Button variant="ghost" size="sm" onClick={() => router.push("/qa")}>
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-medium">
+              Question {currentIndex + 1} of {reviewQueue.length}
+            </span>
+            <Badge 
+              variant={isMastered(currentQA.reviewIndex ?? 0) ? "default" : "outline"} 
+              className={`text-xs ${isMastered(currentQA.reviewIndex ?? 0) ? "bg-green-500" : ""}`}
+            >
+              {getReviewStatusLabel(currentQA.reviewIndex ?? 0)}
+            </Badge>
+          </div>
+          <Button variant="ghost" size="sm" onClick={() => router.push("/mobile/qa")}>
             Exit
           </Button>
         </div>
@@ -588,7 +592,7 @@ Do NOT use "add_flashcard" - that would create a duplicate. Always use "rate_fla
                       setShowAnswer(false)
                       setSpokenAnswer("")
                     } else {
-                      router.push("/qa")
+                      router.push("/mobile/qa")
                     }
                   }}
                   size="lg"
@@ -657,7 +661,7 @@ Do NOT use "add_flashcard" - that would create a duplicate. Always use "rate_fla
                         <span className="text-xs text-muted-foreground">
                           {formatReviewDate(review.reviewed_at, reviewHistory)}
                         </span>
-                        {review.score !== null && review.score > 0 && (
+                        {review.score !== null && review.score !== undefined && review.score > 0 && (
                           <Badge
                             variant={review.score >= 0.6 ? 'default' : 'destructive'}
                             className="text-xs"

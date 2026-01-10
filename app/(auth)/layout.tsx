@@ -17,7 +17,7 @@ export default function MobileAuthLayout({
   const [viewportHeight, setViewportHeight] = useState(0)
 
   // Hide bottom nav on review page for better focus
-  const isReviewPage = pathname === '/review'
+  const isReviewPage = pathname === '/mobile/review'
 
   // Fix iOS 100vh issue
   useEffect(() => {
@@ -33,7 +33,7 @@ export default function MobileAuthLayout({
 
   useEffect(() => {
     if (!loading && !user) {
-      router.push("/login")
+      router.push("/mobile/login")
     }
   }, [user, loading, router])
 
@@ -50,16 +50,11 @@ export default function MobileAuthLayout({
   }
 
   return (
-    <div
-      className="flex flex-col bg-background overflow-hidden"
-      style={{
-        height: viewportHeight > 0 ? `${viewportHeight}px` : '100vh',
-      }}
-    >
+    <div className="flex flex-col bg-background min-h-screen">
       <div
         className={`flex-1 overflow-y-auto overflow-x-hidden ${isReviewPage ? 'pb-0' : 'pb-20'}`}
         style={{
-          paddingTop: 'env(safe-area-inset-top, 0px)',
+          minHeight: '100dvh',
           WebkitOverflowScrolling: 'touch' as any,
         }}
       >

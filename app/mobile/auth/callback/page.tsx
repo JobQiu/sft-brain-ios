@@ -17,7 +17,7 @@ function MobileAuthCallbackContent() {
 
       if (error) {
         console.error("OAuth error:", error)
-        router.push("/login")
+        router.push("/mobile/login")
         return
       }
 
@@ -28,8 +28,8 @@ function MobileAuthCallbackContent() {
           const apiUrl = '' // Relative path - Next.js proxies to backend
           
           // IMPORTANT: redirect_uri must match what was used in the initial OAuth request
-          // The backend's /api/auth/login now detects mobile and uses /auth/callback
-          const redirectUri = window.location.origin + "/auth/callback"
+          // The backend's /api/auth/login now detects mobile and uses /mobile/auth/callback
+          const redirectUri = window.location.origin + "/mobile/auth/callback"
           
           console.log('[MobileAuthCallback] Exchanging code with redirect_uri:', redirectUri)
           
@@ -88,7 +88,7 @@ function MobileAuthCallbackContent() {
               }
 
               // Redirect to QA tab
-              router.push("/qa")
+              router.push("/mobile/qa")
               return
             }
           }
@@ -98,7 +98,7 @@ function MobileAuthCallbackContent() {
       }
 
       // If we get here, something went wrong
-      router.push("/login")
+      router.push("/mobile/login")
     }
 
     handleCallback()
