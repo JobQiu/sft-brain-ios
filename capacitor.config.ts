@@ -9,7 +9,7 @@ const config: CapacitorConfig = {
     iosScheme: 'https',
   },
   ios: {
-    contentInset: 'never', // Handle safe areas in CSS for full control
+    // Remove contentInset to allow env(safe-area-inset-*) to work properly
   },
   plugins: {
     SplashScreen: {
