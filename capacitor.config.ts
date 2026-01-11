@@ -9,7 +9,7 @@ const config: CapacitorConfig = {
     iosScheme: 'https',
   },
   ios: {
-    contentInset: 'automatic', // Handle iOS safe area (notch, Dynamic Island, status bar)
+    // Remove contentInset to allow env(safe-area-inset-*) to work properly
   },
   plugins: {
     SplashScreen: {
