@@ -5,6 +5,7 @@ import { useAuth } from "@/lib/mobile/auth-context"
 import { useRouter, usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 import MobileBottomNav from "@/components/mobile/bottom-nav"
+import SafeAreaManager from "@/components/mobile/safe-area-manager"
 
 export default function MobileAuthLayout({
   children,
@@ -50,17 +51,20 @@ export default function MobileAuthLayout({
   }
 
   return (
-    <div className="flex flex-col bg-background min-h-screen">
-      <div
-        className={`flex-1 overflow-y-auto overflow-x-hidden ${isReviewPage ? 'pb-0' : 'pb-20'}`}
-        style={{
-          minHeight: '100dvh',
-          WebkitOverflowScrolling: 'touch' as any,
-        }}
-      >
-        {children}
+    <>
+      <SafeAreaManager />
+      <div className="flex flex-col bg-background min-h-screen">
+        <div
+          className={`flex-1 overflow-y-auto overflow-x-hidden ${isReviewPage ? 'pb-0' : 'pb-20'}`}
+          style={{
+            minHeight: '100dvh',
+            WebkitOverflowScrolling: 'touch' as any,
+          }}
+        >
+          {children}
+        </div>
+        {!isReviewPage && <MobileBottomNav />}
       </div>
-      {!isReviewPage && <MobileBottomNav />}
-    </div>
+    </>
   )
 }
