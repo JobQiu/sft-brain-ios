@@ -117,10 +117,51 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:3000
 
 ## 转换为 iOS 应用
 
-查看 [CAPACITOR_GUIDE.md](./CAPACITOR_GUIDE.md) 获取详细说明：
+### iOS 构建和部署（重要）
+
+**⚠️ 必须使用正确的构建命令，否则会部署旧的缓存文件！**
+
+#### 完整构建流程
+
+```bash
+# 1. 清理旧的构建文件（推荐，确保没有缓存问题）
+rm -rf out .next ios/App/App/public
+
+# 2. 使用 build:mobile 命令构建（设置 CAPACITOR_BUILD=true）
+npm run build:mobile
+
+# 3. 同步到 iOS 项目
+npx cap sync ios
+
+# 4. 在模拟器中运行
+npx cap run ios --target="iPhone 16 Pro"
+
+# 或者组合命令（更快）
+npm run build:mobile && npx cap sync ios && npx cap run ios
+```
+
+#### 为什么必须使用 `npm run build:mobile`？
+
+- ❌ **错误**：`npm run build` - 不会设置 `CAPACITOR_BUILD=true`，Next.js 不会生成静态导出到 `out/` 目录
+- ✅ **正确**：`npm run build:mobile` - 设置 `CAPACITOR_BUILD=true`，触发静态导出模式
+
+**技术原理**：
+- `next.config.mjs` 中的配置：`...(process.env.CAPACITOR_BUILD === 'true' && { output: 'export' })`
+- 只有设置了 `CAPACITOR_BUILD=true` 时，Next.js 才会生成静态文件到 `out/` 目录
+- Capacitor 需要 `out/` 目录中的静态文件来构建 iOS 应用
+- 使用错误的构建命令会导致部署旧的缓存文件，修改不会生效
+
+#### iOS 安全区域处理
+
+应用使用动态安全区域方案，自动适配不同 iPhone 型号：
+- **SafeAreaManager 组件**：使用 `capacitor-plugin-safe-area` 插件动态获取安全区域值
+- **动态 CSS 变量**：设置 `--safe-area-inset-top/bottom/left/right` 供所有页面使用
+- **自动适配**：支持刘海屏（iPhone X-13）、灵动岛（iPhone 14 Pro+）、传统状态栏（旧机型）
+- **无硬编码**：所有 padding 值都使用 CSS 变量，不依赖固定像素值
+
+查看 [CAPACITOR_GUIDE.md](./CAPACITOR_GUIDE.md) 获取更多详细说明：
 - 设置 iOS 开发环境
-- 构建 iOS 应用
-- 在模拟器和真机上测试
+- 在真机上测试
 - 准备提交到 App Store
 
 ## 连接后端 API
